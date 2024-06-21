@@ -1,5 +1,6 @@
+import math
+
 def square(a):
-    import math
 
     if (a % 1 == 0):
         area = a * a
