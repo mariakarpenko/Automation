@@ -14,10 +14,14 @@ driver.maximize_window()
 driver.get("http://uitestingplayground.com/dynamicid")
 
 
-# Кликнуть на синюю кнопку
-button_selector = 'button.btn-primary'
-button = driver.find_element(By.CSS_SELECTOR, button_selector)
-button.click()
+# Кликаем 3 раза
+count = 0
+for n in range(3):
+    button_selector = 'button.btn-primary'
+    button = driver.find_element(By.CSS_SELECTOR, button_selector).click()
+    count = count + 1
+    sleep(2)
+    print(count)
 
 
 # Спит 3 секунду
