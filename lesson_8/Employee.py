@@ -1,7 +1,7 @@
 import pytest
 import requests
 import json
-from constants import get_token
+from Automation.lesson_8.conftest import get_token
 
 
 class Company:
@@ -20,7 +20,7 @@ class Company:
     # Последняя активная компания
     def last_active_company_id(self):
         active_params = {"active": 'true'}
-        resp = requests.post(self.url + '/company', params=active_params)
+        resp = requests.get(self.url + '/company', params=active_params)
         return resp.json()[-1]['id']
 
 
@@ -62,11 +62,11 @@ class Employee:
     # Получить сотрудника по id
     def get_employee_by_id(self, employee_id: int):
         resp = requests.get(self.url + '/employee/' + str(employee_id))
-        return resp.json()
+        return resp
         
 
     # Изменить информацию о сотруднике
     def edit_employee_info(self, token: str, employee_id: int, body: json):
         headers = {"x-client-token": token}
         resp = requests.patch(self.url + '/employee/' + str(employee_id), headers=headers, json=body)
-        return resp.json()
+        return resp

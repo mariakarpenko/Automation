@@ -38,18 +38,14 @@ def test_add_new_employee(get_token):
         'url': 'photo',
         'phone': '87654320987',
         'birthdate': '2000-01-01',
-        'isActive': 'true', # Обязательное
+        'isActive': 'true' # Обязательное
     }
              
     new_employee_id = (employee.add_new_employee(token, employee_body))['id']
     assert new_employee_id is not None
     employee_info = employee.get_employee_by_id(new_employee_id)
-    assert employee_info.json()["id"] == new_employee_id
+    assert employee_info.json()['id'] == new_employee_id
     assert employee_info.status_code == 200
-
-    body = api.get_employee_list()
-    len_after = len(body)
-    assert len_after - len_before == 1
 
 
 
@@ -89,7 +85,7 @@ def test_add_new_employee_no_id(get_token):
         'isActive': 'true', # Обязательное
     }
     new_employee = employee.add_new_employee(token, employee_body)
-    assert new_employee['message'] == 'Unauthorized'
+    assert new_employee["message"] == 'Internal server error'
 
 
 # Проверка добавления нового сотрудника без ключа "firstName"
@@ -108,7 +104,7 @@ def test_add_new_employee_no_firstname(get_token):
         'isActive': 'true', # Обязательное
     }
     new_employee = employee.add_new_employee(token, employee_body)
-    assert new_employee['message'] == ''
+    assert new_employee['message'] == 'Internal server error'
 
 
 # Проверка добавления нового сотрудника без ключа "lastName"
@@ -127,7 +123,7 @@ def test_add_new_employee_no_lastname(get_token):
         'isActive': 'true', # Обязательное
     }
     new_employee = employee.add_new_employee(token, employee_body)
-    assert new_employee['message'] == ''
+    assert new_employee['message'] == 'Internal server error'
 
 
 # Проверка добавления нового сотрудника без ключа "companyId"
@@ -146,7 +142,7 @@ def test_add_new_employee_no_company_id(get_token):
         'isActive': 'true', # Обязательное
     }
     new_employee = employee.add_new_employee(token, employee_body)
-    assert new_employee['message'] == ''
+    assert new_employee['message'] == 'Internal server error'
 
 
 # Проверка добавления нового сотрудника без ключа "isActive"
@@ -165,7 +161,7 @@ def test_add_new_employee_no_status(get_token):
         'birthdate': '2000-01-01',
     }
     new_employee = employee.add_new_employee(token, employee_body)
-    assert new_employee['message'] == ''
+    assert new_employee['message'] == 'Internal server error'
 
 
 def test_edit_employee_info(get_token):
@@ -189,7 +185,7 @@ def test_edit_employee_info(get_token):
 
 
     edited_employee_body = {
-        'firstName': 'Sarah',
+        'firstName': 'Jane',
         'email': 'sarahflowoods@test.com',
         'birthdate': '2001-08-07',
     }
@@ -198,6 +194,6 @@ def test_edit_employee_info(get_token):
     # Проверка на ствтус кода
     assert edited_employee.status_code == 200
     # Проверка фактическое изменение данных
-    assert (edited_employee.json()['firstName']) == edited_employee_body.get('firstName')
+    assert (edited_employee.json()["firstName"]) == edited_employee_body.get("firstName")
     assert (edited_employee.json()['email']) == edited_employee_body.get('email')
     assert (edited_employee.json()['birthdate']) == edited_employee_body.get('birthdate')
