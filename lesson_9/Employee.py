@@ -50,13 +50,13 @@ class Employee:
 
 
     # Получить список сотрудников компании
-    def get_employee_list(self, company_id: int):
+    def get_employee_list(self, company_id: int) -> list:
         """
         Функция получает список сотрудников определенной компании (её id указывается как параметр)
         с помощью api-запроса
         """               
-        company = {'companyId' : company_id}
-        response = requests.get(self.url + '/employee', params=company)
+        company_id_param = {'companyId' : company_id}
+        response = requests.get(self.url + '/employee', params=company_id_param)
         return response.json()
 
 
