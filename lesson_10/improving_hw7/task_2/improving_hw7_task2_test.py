@@ -7,7 +7,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 import allure
 
-from Automation.lesson_10.improving_hw7.task_2.MainPage_task2 import MainPage
+from HomePage_task2 import HomePage
 
 @allure.id("HW7.2")
 @allure.epic("ДЗ 7.2")
@@ -20,7 +20,7 @@ def testing_step_two():
     browser = webdriver.Chrome(service = ChromeService(ChromeDriverManager().install()))
 
     with allure.step("Перейти на веб-страницу в браузере Google Chrome"):
-        main_page = MainPage(browser)
+        main_page = HomePage(browser)
 
     with allure.step("Ввести количество секунд, через которое в калькуляторе отобразится результат вычисления"):
         main_page.delay_setting(45)

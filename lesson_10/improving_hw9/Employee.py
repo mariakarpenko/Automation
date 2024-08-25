@@ -21,7 +21,7 @@ class Company:
         название и описание создаваемой компании
         """
         headers = {"x-client-token": token}
-        resp = requests.post(self.url + '/company', headers=headers, params=body)
+        resp = requests.post(self.url + '/company', headers=headers, json=body)
         return resp.json()
     
 
@@ -53,13 +53,13 @@ class Employee:
         self.url = url
 
 
-    @allure.step("API. Получить список сотрудников компании с ID ({id})")
+    @allure.step("API. Получить список сотрудников компании с ID ({company_id})")
     def get_employee_list(self, company_id: int) -> list:
         """
         Функция получает список сотрудников определенной компании (её id указывается как параметр)
         с помощью api-запроса
         """               
-        company_id_param = {'companyId' : company_id}
+        company_id_param = {'company' : company_id}
         response = requests.get(self.url + '/employee', params=company_id_param)
         return response.json()
 

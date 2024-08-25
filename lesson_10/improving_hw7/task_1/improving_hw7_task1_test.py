@@ -6,7 +6,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 import allure
 
-from Automation.lesson_10.improving_hw7.task_1.MainPage_task1 import MainPage
+from MainPage_task1 import MainPage
 
 @allure.id("HW7.1")
 @allure.epic("ДЗ 7.1")
