@@ -36,10 +36,40 @@ def test_auth(get_token):
 @allure.severity("Blocker")
 def test_get_employee_list():
     with allure.step("Добавить в БД новую компанию"):
-        new_company = db_company.create_company('Эльдорадо', 'Магазин техники')
-    
+        db_company.create_company('Эльдорадо', 'Магазин техники')
+
     with allure.step("Получить ID последней добавленной компании"):
         max_company_id = db_company.get_max_id()
+
+    with allure.step("Добавить два сотрудника в новую компанию"):
+        token = str(get_token)
+        employee_1_body = {
+            'id': 1, # Обязательное
+            'firstName': 'Henry', # Обязательное
+            'lastName': 'Cavill', # Обязательное
+            'middleName': 'William',
+            'companyId': max_company_id, # Обязательное
+            'email': 'henrycavill@test.com',
+            'url': 'photo',
+            'phone': '88887776655',
+            'birthdate': '1983-05-05',
+            'isActive': 'true' # Обязательное
+        }
+        new_employee_1_id = (employee.add_new_employee(token, employee_1_body))['id']
+        employee_2_body = {
+            'id': 2, # Обязательное
+            'firstName': 'Benedict', # Обязательное
+            'lastName': 'Cumberbatch', # Обязательное
+            'middleName': 'Timothy',
+            'companyId': max_company_id, # Обязательное
+            'email': 'benedictcumberbatch@test.com',
+            'url': 'photo',
+            'phone': '88887776655',
+            'birthdate': '1976-07-19',
+            'isActive': 'true' # Обязательное
+        }
+        new_employee_2_id = (employee.add_new_employee(token, employee_2_body))['id']
+
 
     with allure.step("Получить список сотрудников компании через API"):
         api_result = employee.get_employee_list(max_company_id)
@@ -49,6 +79,10 @@ def test_get_employee_list():
 
     with allure.step("Убедиться, что длина списка сотрудников, полученная через API, равна списку сотрудников в базе данных"):
         assert len(api_result) == len(db_result)
+
+    with allure.step("Удалить ранее добавленных сотрудников из базы"):
+        db_employee.delete_employee(new_employee_1_id)
+        db_employee.delete_employee(new_employee_2_id)
 
     with allure.step("Удалить ранее созданную компанию"):
         db_company.delete_company(max_company_id)
@@ -63,7 +97,7 @@ def test_get_employee_list():
 @allure.severity("Blocker")
 def test_get_employee_by_id(get_token):
     with allure.step("Добавить в БД новую компанию"):
-        new_company = db_company.create_company('restore', 'Магазин техники')
+        db_company.create_company('restore', 'Магазин техники')
 
     with allure.step("Получить ID последней добавленной компании"):
         max_company_id = db_company.get_max_id()
@@ -119,7 +153,7 @@ def test_get_employee_by_id(get_token):
 @allure.severity("Blocker")
 def test_add_new_employee(get_token):
     with allure.step("Добавить в БД новую компанию"):
-        new_company = db_company.create_company('М.Видео', 'Магазин техники')
+        db_company.create_company('М.Видео', 'Магазин техники')
 
     with allure.step("Получить ID последней добавленной компании"):
         max_company_id = db_company.get_max_id()
@@ -349,7 +383,7 @@ def test_add_new_employee_no_company_id(get_token):
 @allure.severity("Blocker")
 def test_edit_employee_info(get_token):
     with allure.step("Добавить в БД новую компанию"):
-        new_company = db_company.create_company('Ситилинк', 'Магазин техники')
+        db_company.create_company('Ситилинк', 'Магазин техники')
     with allure.step("Получить ID последней добавленной компании"):
         max_company_id = db_company.get_max_id()
 
